@@ -3,3 +3,4 @@ djangorestframework
 pillow
 psycopg2
 python-dotenv
+django-filter
