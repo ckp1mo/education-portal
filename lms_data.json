@@ -1,0 +1,33 @@
+[
+  {
+    "model": "lms.course",
+    "pk": 1,
+    "fields": {
+      "title": "python-3",
+      "description": "Топопвый курс",
+      "preview": ""
+    }
+  },
+  {
+    "model": "lms.lesson",
+    "pk": 4,
+    "fields": {
+      "title": "Cycles",
+      "description": "Что-то в этом духе",
+      "preview": "",
+      "video_link": null,
+      "course": 1
+    }
+  },
+  {
+    "model": "lms.lesson",
+    "pk": 5,
+    "fields": {
+      "title": "Funcion",
+      "description": "Перестаем писать лапшу",
+      "preview": "",
+      "video_link": null,
+      "course": 1
+    }
+  }
+]
