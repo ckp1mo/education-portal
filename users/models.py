@@ -3,13 +3,18 @@ from django.db import models
 from lms.models import Lesson, Course, NULLABLE
 
 
+class UserRole(models.TextChoices):
+    USER = 'user', 'пользователь'
+    MODERATOR = 'moderator', 'модератор'
+
+
 class User(AbstractUser):
     username = None
     phone = models.CharField(max_length=30, verbose_name='Телефон', **NULLABLE)
     town = models.CharField(max_length=100, verbose_name='Город', **NULLABLE)
     avatar = models.ImageField(upload_to='users/', verbose_name='Аватар', **NULLABLE)
     email = models.EmailField(unique=True, verbose_name='Email')
-
+    role = models.CharField(max_length=9, choices=UserRole.choices, default=UserRole.USER)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
