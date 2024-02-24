@@ -28,8 +28,8 @@ class User(AbstractUser):
 
 class Payment(models.Model):
     payment_variant = [
-        ('Наличные', 'cash'),
-        ('Картой', 'card'),
+        ('cash', 'Наличные'),
+        ('card', 'Картой'),
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
@@ -37,7 +37,7 @@ class Payment(models.Model):
     lesson = models.ForeignKey(Lesson, related_name='lesson', on_delete=models.CASCADE, verbose_name='Урок', **NULLABLE)
     course = models.ForeignKey(Course, related_name='course', on_delete=models.CASCADE, verbose_name='Курс', **NULLABLE)
     payment = models.PositiveIntegerField(verbose_name='Сумма платежа')
-    payment_method = models.CharField(max_length=30, choices=payment_variant, verbose_name='Способ оплаты')
+    payment_method = models.CharField(max_length=30, choices=payment_variant, default='card', verbose_name='Способ оплаты')
 
     stripe_id = models.CharField(max_length=300, verbose_name='stripe_id', **NULLABLE)
 

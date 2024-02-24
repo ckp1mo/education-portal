@@ -50,14 +50,14 @@ class PaymentCreateAPIView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        amount = serializer.validated_data.get('amount')
+        amount = serializer.validated_data.get('payment')
 
         user = self.request.user
         payment = get_pay(amount, user)
 
         response_data = {
             "id": payment.id,
-            "amount": payment.amount,
+            "payment": payment.payment,
             "stripe_id": payment.stripe_id
         }
 
