@@ -9,6 +9,7 @@ from users.models import UserRole
 
 
 class CourseViewSet(viewsets.ModelViewSet):
+    """ Course ViewSet """
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
     pagination_class = CoursePaginator

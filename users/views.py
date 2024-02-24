@@ -2,8 +2,11 @@ from rest_framework import generics
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
 from users.models import User, Payment, Subscription
 from users.serializers import UserSerializer, PaymentSerializers, SubscriptionSerializer
+from users.services import get_pay
 
 
 class UserCreateAPIView(generics.CreateAPIView):
@@ -42,6 +45,23 @@ class UserDeleteAPIView(generics.DestroyAPIView):
 class PaymentCreateAPIView(generics.CreateAPIView):
     serializer_class = PaymentSerializers
     queryset = Payment.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        amount = serializer.validated_data.get('amount')
+
+        user = self.request.user
+        payment = get_pay(amount, user)
+
+        response_data = {
+            "id": payment.id,
+            "amount": payment.amount,
+            "stripe_id": payment.stripe_id
+        }
+
+        return Response(response_data)
 
 
 class PaymentListAPIView(generics.ListAPIView):
