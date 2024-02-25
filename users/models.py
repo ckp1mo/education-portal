@@ -39,7 +39,7 @@ class Payment(models.Model):
     payment = models.PositiveIntegerField(verbose_name='Сумма платежа')
     payment_method = models.CharField(max_length=30, choices=payment_variant, default='card', verbose_name='Способ оплаты')
 
-    stripe_id = models.CharField(max_length=300, verbose_name='stripe_id', **NULLABLE)
+    stripe_id = models.CharField(verbose_name='stripe_id', **NULLABLE)
 
     def __str__(self):
         return f'{self.user}, {self.lesson if self.lesson else self.course}, {self.date}'

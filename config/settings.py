@@ -148,3 +148,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ]
 }
+
+STRIPE_SECRET_KEY = 'sk_test_51OnM35CY5oj99qGal0hpnvPtKv5C9GhMaXPh3OL9oHuVm5jDYfb8rbk9NW4RFODBJePzJRWzJTb8zOANWQYzaQxQ00vpYpTDYL'
