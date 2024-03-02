@@ -1,9 +1,9 @@
+import datetime
 from celery import shared_task
 from django.conf import settings
 from django.core.mail import send_mail
-
 from lms.models import Course
-from users.models import Subscription
+from users.models import Subscription, User
 
 
 @shared_task
@@ -21,5 +21,14 @@ def send_mail_if_update_course(pk):
             )
 
 
+@shared_task()
 def deactivate_user():
-    pass
+    """Деактивация пользователя, если не заходил в течении месяца"""
+    users = User.objects.filter(is_active=True)
+    time_now = datetime.datetime.now(datetime.timezone.utc)
+    for user in users:
+        if user.last_login:
+            date = user.last_login + datetime.timedelta(days=30)
+            if date < time_now:
+                user.is_active = False
+                user.save()
