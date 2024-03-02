@@ -6,6 +6,7 @@ from lms.paginators import CoursePaginator, LessonPaginator
 from lms.permissions import IsModerator, IsOwner
 from lms.serializers import CourseSerializer, LessonSerializer
 from users.models import UserRole
+from users.tasks import send_mail_if_update_course
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -16,7 +17,7 @@ class CourseViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset()
-        if self.request.user.role == UserRole.MODERATOR:
+        if self.request.user.role == UserRole.MODERATOR or self.request.user.is_superuser:
             return queryset
         else:
             return queryset.filter(owner=self.request.user)
@@ -32,6 +33,11 @@ class CourseViewSet(viewsets.ModelViewSet):
         new_course = serializer.save()
         new_course.owner = self.request.user
         new_course.save()
+
+    def perform_update(self, serializer):
+        course_update = serializer.save()
+        if course_update:
+            send_mail_if_update_course.delay(course_update.pk)
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
