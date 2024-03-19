@@ -19,3 +19,7 @@
 3. Рекомендуется заполнить БД данными из фикстур командами в следующем порядке:
    - python3 manage.py loaddata users
    - python3 manage.py loaddata lms
+
+# Запускаем Docker Compose.
+   - Командой в терминале docker-compose build собираем образ
+   - Командой в терминале  docker-compose up запускаем контейнеры
